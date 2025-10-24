@@ -1,6 +1,6 @@
 # REshare - A Reverse Engineering Exchange Format
 
-A human- and machine-readable schema to represent knowledge obtained during reverse engineering.Inspired by [Travis Goodspeed – A Keynote in Praise of Junk Hacking](https://www.youtube.com/watch?v=HyTkqcfSv4w).
+A human- and machine-readable schema to represent knowledge obtained during reverse engineering.Inspired by [Travis Goodspeed - Some Thoughts on Literate Disassembly and Symbol Porting](https://www.youtube.com/watch?v=HyTkqcfSv4w).
 
 With an exchange format we only have to implement a single importer/exporter pair for each tool we want to support to be able to transfer data between all tools. 
 
