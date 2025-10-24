@@ -1,0 +1,125 @@
+plugins {
+    // Apply the java-library plugin for API and implementation separation.
+    id 'java-library'
+
+    // Shadow plugin for building fat/uber JARs
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+repositories {
+    // Use Maven Central for resolving dependencies.
+    mavenCentral()
+}
+
+dependencies {
+    // Use JUnit test framework.
+    testImplementation libs.junit
+
+    // This dependency is exported to consumers, that is to say found on their compile classpath.
+    //api libs.commons.math3
+
+    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
+    implementation libs.guava
+    //implementation("com.fasterxml.jackson.core:jackson-core:2.20.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.16.0")
+}
+
+// Apply a specific Java toolchain to ease working on different environments.
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+// Optional: project version / group if you publish or want consistent archive names
+group = findProperty('group') ?: 'com.example'
+version = findProperty('version') ?: '0.1.0'
+
+// Main class configuration (optional)
+// You can override with -PmainClass=your.package.Main when invoking Gradle
+ext {
+    mainClass = findProperty('mainClass') ?: null // set to null by default
+}
+
+// Handle duplicate entries in JARs consistently
+tasks.withType(Jar).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+// Standard JAR - add a useful manifest
+tasks.named('jar', Jar).configure {
+    archiveBaseName.set(rootProject.name)
+    // don't add classifier for the normal jar
+    archiveClassifier.set('')
+    manifest {
+        attributes(
+            'Implementation-Title': rootProject.name,
+            'Implementation-Version': project.version,
+            'Built-By': System.getProperty('user.name'),
+            'Built-JDK': System.getProperty('java.version')
+        )
+        if (mainClass) {
+            attributes('Main-Class': mainClass)
+        }
+    }
+    // include runtime classpath resources if you want resource-only jars (not a fat jar)
+    from(sourceSets.main.output)
+    doLast {
+        println "JAR: ${archiveFile.get().asFile.absolutePath}"
+    }
+}
+
+// Shadow (fat) JAR configuration
+shadowJar {
+    // set archive names and classifier
+    archiveBaseName.set(rootProject.name)
+    archiveClassifier.set('all') // results: mylib-all.jar
+    archiveVersion.set(project.version.toString())
+
+    // merge service files (useful if you depend on services)
+    mergeServiceFiles()
+
+    // exclude signatures and duplicate files that may break run
+    exclude 'META-INF/*.SF'
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+
+    // Optional: minimize the fat jar to remove unused classes (may cause problems with reflection)
+    // minimize()
+
+    // Propagate main class to the fat jar manifest if provided
+    manifest {
+        attributes(
+            'Implementation-Title': project.name,
+            'Implementation-Version': project.version
+        )
+        if (mainClass) {
+            attributes('Main-Class': mainClass)
+        }
+    }
+    doLast {
+        println "Shadow JAR: ${archiveFile.get().asFile.absolutePath}"
+    }
+}
+
+// Optional convenience task that depends on shadowJar
+tasks.register('fatJar') {
+    group = 'build'
+    description = 'Builds the fat (uber) jar using Shadow'
+    dependsOn(tasks.named('shadowJar'))
+}
+
+// Produce sources and javadoc jars (helpful when publishing)
+tasks.register('sourcesJar', Jar) {
+    archiveClassifier.set('sources')
+    from(sourceSets.main.get().allSource)
+}
+tasks.register('javadocJar', Jar) {
+    archiveClassifier.set('javadoc')
+    from(tasks.named('javadoc'))
+}
+
+// Make assemble include the shadow jar (optional)
+tasks.named('assemble') {
+    dependsOn(tasks.named('shadowJar'))
+}

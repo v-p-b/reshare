@@ -1,0 +1,225 @@
+{
+  "properties": {
+    "project-name": {
+      "type": "string"
+    }
+  },
+  "optionalProperties": {
+    "project-version": {
+      "type": "string"
+    },
+    "target-name": {
+      "type": "string"
+    },
+    "target-version": {
+      "type": "string"
+    },
+    "symbols": {
+      "elements": {
+        "ref": "resh-symbol"
+      }
+    },
+    "data-types": {
+      "elements": {
+        "ref": "resh-data-type"
+      }
+    },
+    "target-sha256": {
+      "type": "string"
+    },
+    "target-md5": {
+      "type": "string"
+    }
+  },
+  "definitions": {
+    "resh-address": {
+      "properties": {
+        "bytes": {
+          "elements": {
+            "type": "uint8"
+          }
+        },
+        "space": {
+          "type": "string"
+        }
+      }
+    },
+    "resh-symbol": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "address": {
+          "ref": "resh-address"
+        }
+      },
+      "optionalProperties": {
+        "confidence": {
+          "enum": [
+            "FACT",
+            "GUESS",
+            "PRIVATE"
+          ]
+        },
+        "type": {
+          "ref": "resh-type-spec"
+        },
+        "labels": {
+          "elements": {
+            "ref": "resh-label"
+          }
+        }
+      }
+    },
+    "resh-label": {
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "address": {
+          "ref": "resh-address"
+        },
+        "length": {
+          "type": "uint32"
+        }
+      }
+    },
+    "resh-data-type": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "size": {
+          "type": "uint32"
+        },
+        "content": {
+          "ref": "resh-data-type-content"
+        }
+      },
+      "optionalProperties": {
+        "modifiers": {
+          "elements": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "resh-data-type-content": {
+      "discriminator": "type",
+      "mapping": {
+        "PRIMITIVE": {
+          "properties": {}
+        },
+        "POINTER": {
+          "properties": {
+            "target-type": {
+              "ref": "resh-type-spec"
+            }
+          }
+        },
+        "ARRAY": {
+          "properties": {
+            "base-type": {
+              "ref": "resh-type-spec"
+            },
+            "length": {
+              "type": "uint32"
+            }
+          }
+        },
+        "STRUCTURE": {
+          "properties": {
+            "members": {
+              "elements": {
+                "ref": "resh-structure-member"
+              }
+            }
+          }
+        },
+        "UNION": {
+          "properties": {
+            "members": {
+              "elements": {
+                "ref": "resh-structure-member"
+              }
+            }
+          }
+        },
+        "ENUM": {
+          "properties": {
+            "members": {
+              "elements": {
+                "ref": "resh-enum-member"
+              }
+            },
+            "base-type": {
+              "ref": "resh-type-spec"
+            }
+          }
+        },
+        "FUNCTION": {
+          "optionalProperties": {
+            "return-type": {
+              "ref": "resh-type-spec"
+            },
+            "arguments": {
+              "elements": {
+                "ref": "resh-function-argument"
+              }
+            },
+            "calling-convention": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "resh-structure-member": {
+      "properties": {
+        "type": {
+          "ref": "resh-type-spec"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "optionalProperties": {
+        "offset": {
+          "type": "uint32"
+        }
+      }
+    },
+    "resh-enum-member": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "uint32"
+        }
+      }
+    },
+    "resh-function-argument": {
+      "optionalProperties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "ref": "resh-type-spec"
+        }
+      }
+    },
+    "resh-type-spec": {
+      "properties": {
+        "type-name": {
+          "type": "string"
+        }
+      },
+      "optionalProperties": {
+        "embedded-type": {
+          "ref": "resh-data-type"
+        }
+      }
+    }
+  }
+}

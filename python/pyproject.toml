@@ -1,0 +1,20 @@
+[project]
+name = "reshare"
+version = "v0.1.1"
+authors = [{name="buherator", email="buherator@scrapco.de"}]
+description = "REshare reverse-engineering exchange format Python package"
+readme="README.md"
+license="MIT"
+
+[project.urls]
+Repository="https://github.com/v-p-b/reshare/python/"
+
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+pythonpath = [
+  "src"
+]
+
