@@ -2,6 +2,14 @@
 
 This is the Python wrapper for the [REshare](https://github.com/v-p-b/reshare) reverse-engineering exchange format. 
 
+## Installation
+
+The package is available on PyPI:
+
+```
+pip install reshare==0.1.1
+```
+
 ## Usage
 
 ```python
