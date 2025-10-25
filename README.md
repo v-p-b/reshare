@@ -4,6 +4,8 @@ A human- and machine-readable schema to represent knowledge obtained during reve
 
 With an exchange format we only have to implement a single importer/exporter pair for each tool we want to support to be able to transfer data between all tools. 
 
+![Implementing import/export for each tool-pair has quadratic complexity. Implementing a REshare for each tool is linear.](./img/penta.png)
+
 The repo contains a [JSON Type Definition](https://jsontypedef.com/) that can be automatically converted to serializers/deserializers in multiple languages using `jtd-convert`. 
 
 With serializers we can build source-specific exporters to generate JSON representation of program information from arbitrary sources. We are currently aware of the following exporters:
