@@ -46,7 +46,7 @@ class ReshDataTypeContentPrimitivePy(ReshDataTypeContentPrimitive):
 
 
 class ReshDataTypeContentPointerPy(ReshDataTypeContentPointer):
-    def __init__(self, target_type: ReshTypeSpec):
+    def __init__(self, target_type: ReshTypeSpec | str | ReshDataType):
         super().__init__(type="POINTER", target_type=_wrap_resh_type(target_type))
 
     def __setattr__(self, name, value):
@@ -57,7 +57,7 @@ class ReshDataTypeContentPointerPy(ReshDataTypeContentPointer):
 
 
 class ReshDataTypeContentArrayPy(ReshDataTypeContentArray):
-    def __init__(self, base_type: ReshTypeSpec, length: int):
+    def __init__(self, base_type: ReshTypeSpec | str | ReshDataType, length: int):
         super().__init__(
             type="ARRAY", base_type=_wrap_resh_type(base_type), length=length
         )
@@ -80,7 +80,11 @@ class ReshDataTypeContentUnionPy(ReshDataTypeContentUnion):
 
 
 class ReshDataTypeContentEnumPy(ReshDataTypeContentEnum):
-    def __init__(self, base_type: ReshTypeSpec, members: list[ReshEnumMember]):
+    def __init__(
+        self,
+        base_type: ReshTypeSpec | str | ReshDataType,
+        members: list[ReshEnumMember],
+    ):
         super().__init__(
             type="ENUM", base_type=_wrap_resh_type(base_type), members=members
         )
@@ -97,7 +101,7 @@ class ReshDataTypeContentFunctionPy(ReshDataTypeContentFunction):
         self,
         arguments: Optional[list[ReshFunctionArgument]] = [],
         calling_convention: Optional[str] = None,
-        return_type: Optional[ReshTypeSpec] = None,
+        return_type: Optional[ReshTypeSpec | str | ReshDataType] = None,
     ):
         super().__init__(
             type="FUNCTION",
@@ -114,7 +118,11 @@ class ReshDataTypeContentFunctionPy(ReshDataTypeContentFunction):
 
 
 class ReshFunctionArgumentPy(ReshFunctionArgument):
-    def __init__(self, name: Optional[str] = None, type: Optional[ReshTypeSpec] = None):
+    def __init__(
+        self,
+        name: Optional[str] = None,
+        type: Optional[ReshTypeSpec | str | ReshDataType] = None,
+    ):
         super().__init__(name=name, type=_wrap_resh_type(type))
 
     def __setattr__(self, name, value):
@@ -125,7 +133,12 @@ class ReshFunctionArgumentPy(ReshFunctionArgument):
 
 
 class ReshStructureMemberPy(ReshStructureMember):
-    def __init__(self, name: str, type: ReshTypeSpec, offset: Optional[int] = None):
+    def __init__(
+        self,
+        name: str,
+        type: ReshTypeSpec | str | ReshDataType,
+        offset: Optional[int] = None,
+    ):
         super().__init__(name=name, type=_wrap_resh_type(type), offset=offset)
 
     def __setattr__(self, name, value):
@@ -142,7 +155,7 @@ class ReshSymbolPy(ReshSymbol):
         name: str,
         confidence: Optional[ReshSymbolConfidence] = None,
         labels: Optional[list[ReshLabel]] = [],
-        type: Optional[ReshTypeSpec] = None,
+        type: Optional[ReshTypeSpec | str | ReshDataType] = None,
     ):
         super().__init__(
             address=address,
