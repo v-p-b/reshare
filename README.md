@@ -17,6 +17,7 @@ With deserializers we can build target-specific importers to provide the informa
 
 * [reshare-pyghidra](https://github.com/v-p-b/reshare-pyghidra) - Import to Ghidra
 * [reshare-r2](https://github.com/v-p-b/reshare-r2) - Import to r2
+* [reshare-ida](https://github.com/v-p-b/reshare-ida) - Import to IDA
 
 **The type definition is currently highly unstable. Expect breaking changes and always pin exact library versions in your tools!**
 
@@ -51,4 +52,16 @@ java/ $ ./gradlew shadowJar # builds fat Jar with dependencies included
 Please use the `make format` command before sending patches!
 
 JTD generated code should not appear in the repo. 
+
+
+### Importer/Exporter Structure
+
+Here are some significant points about current import/export algorithms:
+
+* REshare identifies data types by name, as we can expect these to by unique. Having a function to produce target type objects by name and one from source objects is useful. (In case of import, source objects come from REshare, target object are tool specific, like `tinfo_t` or `DataType`. Vice versa in case of export)
+* Using recursion for traversing the data type graph is an obvious solution and I stuck with that. Debugging infinite recursion is not fun though.
+* Since types can reference each other we first fill an in-memory hash table with target-specific objects. When all is done we use this complete view of data types to populate the tool database or the REshare export. This way we can reference all referenced types when needed and probably gain some performance too.
+* Because of circular references, we may need to insert to our map incomplete types first, the complete them later - this requires target objects to be mutable. 
+
+You are not required to follow these, but may help understanding existing code and some of the tricky cases it aims to solve.
 
