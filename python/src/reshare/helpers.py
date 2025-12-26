@@ -9,14 +9,19 @@ class ResharePy(Reshare):
     def __init__(
         self,
         project_name: str,
-        data_types: Optional[list[ReshDataType]] = [],
+        data_types: Optional[list[ReshDataType]] = None,
         project_version: Optional[str] = None,
-        symbols: Optional[list[ReshSymbol]] = [],
+        symbols: Optional[list[ReshSymbol]] = None,
         target_md5: Optional[str] = None,
         target_name: Optional[str] = None,
         target_sha256: Optional[str] = None,
         target_version: Optional[str] = None,
     ):
+        if data_types is None:
+            data_types = []
+        if symbols is None:
+            symbols = []
+
         super().__init__(
             project_name=project_name,
             data_types=data_types,
@@ -35,8 +40,10 @@ class ReshDataTypePy(ReshDataType):
         content: ReshDataTypeContent,
         name: str,
         size: int,
-        modifiers: Optional[list[str]] = [],
+        modifiers: Optional[list[str]] = None,
     ):
+        if modifiers is None:
+            modifiers = []
         super().__init__(content=content, name=name, size=size, modifiers=modifiers)
 
 
@@ -99,10 +106,12 @@ class ReshDataTypeContentEnumPy(ReshDataTypeContentEnum):
 class ReshDataTypeContentFunctionPy(ReshDataTypeContentFunction):
     def __init__(
         self,
-        arguments: Optional[list[ReshFunctionArgument]] = [],
+        arguments: Optional[list[ReshFunctionArgument]] = None,
         calling_convention: Optional[str] = None,
         return_type: Optional[ReshTypeSpec | str | ReshDataType] = None,
     ):
+        if arguments is None:
+            arguments = [] 
         super().__init__(
             type="FUNCTION",
             arguments=arguments,
@@ -154,9 +163,11 @@ class ReshSymbolPy(ReshSymbol):
         address: ReshAddress,
         name: str,
         confidence: Optional[ReshSymbolConfidence] = None,
-        labels: Optional[list[ReshLabel]] = [],
+        labels: Optional[list[ReshLabel]] = None,
         type: Optional[ReshTypeSpec | str | ReshDataType] = None,
     ):
+        if labels is None:
+            labels = []
         super().__init__(
             address=address,
             name=name,

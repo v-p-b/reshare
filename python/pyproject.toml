@@ -1,6 +1,6 @@
 [project]
 name = "reshare"
-version = "0.1.2"
+version = "0.1.3"
 authors = [{name="buherator", email="buherator@scrapco.de"}]
 description = "REshare reverse-engineering exchange format Python package"
 readme="README.md"
