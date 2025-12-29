@@ -6,6 +6,11 @@ With an exchange format we only have to implement a single importer/exporter pai
 
 ![Implementing import/export for each tool-pair has quadratic complexity. Implementing a REshare for each tool is linear.](./img/penta.png)
 
+Presentations and blog posts:
+
+* r2con'25 - When Worlds Collide - r4ghidra [video](https://www.youtube.com/watch?v=NbSiNBaBgM4&pp=ygUIcjRnaGlkcmHSBwkJTQoBhyohjO8%3D) [slides](https://scrapco.de/dataslate/r2con-r4ghidra.pdf)
+* [REshare Ramblings - Bad Vibes with IDA](https://scrapco.de/blog/reshare-ramblings-bad-vibes-with-ida.html)
+
 The repo contains a [JSON Type Definition](https://jsontypedef.com/) that can be automatically converted to serializers/deserializers in multiple languages using `jtd-convert`. 
 
 With serializers we can build source-specific exporters to generate JSON representation of program information from arbitrary sources. We are currently aware of the following exporters:
@@ -25,7 +30,7 @@ With deserializers we can build target-specific importers to provide the informa
 ## Principles of the data model
 
 * **Embrace redundancy** - Redundant data can be used by importers for error recovery.
-* **Flexibility** - Export what you can. Most properties are optional, while extra information can be embedded in the output. (Note: we will enable JTD's `additionalProperties` once the code is somewhat stabilized and we ahve enough tests)
+* **Flexibility** - Export what you can. Most properties are optional, while extra information can be embedded in the output. (Note: we will enable JTD's `additionalProperties` once the code is somewhat stabilized and we have enough tests)
 * **Reasonable abstractions** - We aim to support common architectures and formats. If you need something special, feel free to create a variant!
 
 ## Building
