@@ -12,6 +12,7 @@ With serializers we can build source-specific exporters to generate JSON represe
 
 * [reshare-pdb](https://github.com/v-p-b/reshare-pdb) - Export from PDB
 * [reshare-pyghidra](https://github.com/v-p-b/reshare-pyghidra) - Export from Ghidra
+* [reshare-ida](https://github.com/v-p-b/reshare-ida) - Export from IDA
 
 With deserializers we can build target-specific importers to provide the information in the REshare JSON representation to arbitrary tools. We are currently aware of the following importers:
 

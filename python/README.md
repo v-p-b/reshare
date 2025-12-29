@@ -7,7 +7,7 @@ This is the Python wrapper for the [REshare](https://github.com/v-p-b/reshare) r
 The package is available on PyPI:
 
 ```
-pip install reshare==0.1.1
+pip install reshare
 ```
 
 ## Usage
