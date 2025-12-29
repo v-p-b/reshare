@@ -10,6 +10,7 @@ Presentations and blog posts:
 
 * r2con'25 - When Worlds Collide - r4ghidra [video](https://www.youtube.com/watch?v=NbSiNBaBgM4&pp=ygUIcjRnaGlkcmHSBwkJTQoBhyohjO8%3D) [slides](https://scrapco.de/dataslate/r2con-r4ghidra.pdf)
 * [REshare Ramblings - Bad Vibes with IDA](https://scrapco.de/blog/reshare-ramblings-bad-vibes-with-ida.html)
+* [Demo video](https://video.infosec.exchange/w/7VRDzwthgrSzeAHwHvkPtt)
 
 The repo contains a [JSON Type Definition](https://jsontypedef.com/) that can be automatically converted to serializers/deserializers in multiple languages using `jtd-convert`. 
 
@@ -26,6 +27,8 @@ With deserializers we can build target-specific importers to provide the informa
 * [reshare-ida](https://github.com/v-p-b/reshare-ida) - Import to IDA
 
 **The type definition is currently highly unstable. Expect breaking changes and always pin exact library versions in your tools!**
+
+![Edited demo of transferring symbols and types from IDA to Ghidra](https://scrapco.de/dataslate/reshare_demo.gif)
 
 ## Principles of the data model
 
